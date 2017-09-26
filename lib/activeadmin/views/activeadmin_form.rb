@@ -89,9 +89,15 @@ module ActiveAdmin
     end
 
     class YandexMapProxy < LatlngProxy
+      def key
+        @api_key ? "&apikey=#{@api_key}" : ""
+      end
+
+      def loading_map_code
+        @loading_map ? "<script src=\"https://api-maps.yandex.ru/2.1/?lang=#{@lang}#{key}&load=Map,Placemark\" type=\"text/javascript\"></script>" : ''
+      end
+
       def to_s
-        key = @api_key ? "&apikey=#{@api_key}" : ""
-        loading_map_code = @loading_map ? "<script src=\"https://api-maps.yandex.ru/2.1/?lang=#{@lang}&load=Map,Placemark\" type=\"text/javascript\"></script>" : ''
         "<li>" \
         "#{loading_map_code}" \
         "<div id=\"yandex_map\" style=\"height: #{@height}px\"></div>" \
