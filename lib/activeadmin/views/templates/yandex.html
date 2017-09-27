@@ -1,0 +1,51 @@
+<li>
+  %s
+  <div id="yandex_map" style="height: %spx"></div>
+  <script>
+    var yandexMapObject = {
+      idLat: '%s',
+      idLng: '%s',
+      coords: null,
+      map: null,
+      placemark: null,
+
+      getCoordinates: function() {
+        return [
+          parseFloat($("#" + yandexMapObject.idLat).val()) || 55.7522200,
+          parseFloat($("#" + yandexMapObject.idLng).val()) || 37.6155600,
+        ];
+      },
+
+      saveCoordinates: function() {
+        $("#" + yandexMapObject.idLat).val( yandexMapObject.coords[0].toFixed(10) );
+        $("#" + yandexMapObject.idLng).val( yandexMapObject.coords[1].toFixed(10) );
+      },
+
+      init: function() {
+        yandexMapObject.coords = yandexMapObject.getCoordinates();
+        yandexMapObject.saveCoordinates();
+
+        yandexMapObject.map = new ymaps.Map("yandex_map", {
+          center: yandexMapObject.coords,
+          zoom: 12
+        });
+
+        yandexMapObject.placemark = new ymaps.Placemark( yandexMapObject.coords, {}, { preset: "twirl#redIcon", draggable: true } );
+        yandexMapObject.map.geoObjects.add(yandexMapObject.placemark);
+
+        yandexMapObject.placemark.events.add("dragend", function (e) {      
+          yandexMapObject.coords = this.geometry.getCoordinates();
+          yandexMapObject.saveCoordinates();
+        }, yandexMapObject.placemark);
+
+        yandexMapObject.map.events.add("click", function (e) {        
+          yandexMapObject.coords = e.get("coords");
+          yandexMapObject.saveCoordinates();
+          yandexMapObject.placemark.geometry.setCoordinates(yandexMapObject.coords);
+        });
+      }
+    }
+
+    ymaps.ready(yandexMapObject.init);
+  </script>
+</li>

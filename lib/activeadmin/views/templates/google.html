@@ -1,0 +1,51 @@
+<li>
+  %s
+  <div id="google_map" style="height: %spx"></div>
+  <script>
+    var googleMapObject = {
+      idLat: '%s',
+      idLng: '%s',
+      coords: null,
+      map: null,
+      marker: null,
+
+      getCoordinates: function() {
+        return {
+          lat: parseFloat($("#" + googleMapObject.idLat).val()) || 55.7522200,
+          lng: parseFloat($("#" + googleMapObject.idLng).val()) || 37.6155600,
+        };
+      },
+
+      saveCoordinates: function() {
+        $("#" + googleMapObject.idLat).val( googleMapObject.coords.lat.toFixed(10) );
+        $("#" + googleMapObject.idLng).val( googleMapObject.coords.lng.toFixed(10) );
+      },
+
+      init: function() {
+        googleMapObject.coords = googleMapObject.getCoordinates();
+        googleMapObject.saveCoordinates();
+
+        googleMapObject.map = new google.maps.Map(document.getElementById('google_map'), {
+          center: googleMapObject.coords,
+          zoom: 12
+        });
+        
+        var latLngCoord = new google.maps.LatLng(googleMapObject.coords.lat, googleMapObject.coords.lng);
+        googleMapObject.marker = new google.maps.Marker({
+          position: latLngCoord,
+          map: googleMapObject.map,
+          draggable: true
+        });
+        googleMapObject.map.addListener('click', function(e) {
+          googleMapObject.coords = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+          googleMapObject.saveCoordinates();
+          googleMapObject.marker.setPosition(googleMapObject.coords);
+        });
+        googleMapObject.marker.addListener('drag', function(e) {
+          googleMapObject.coords = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+          googleMapObject.saveCoordinates();
+        });
+      }
+    }
+  </script>
+</li>
