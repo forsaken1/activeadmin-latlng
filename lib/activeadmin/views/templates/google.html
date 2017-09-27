@@ -11,8 +11,8 @@
 
       getCoordinates: function() {
         return {
-          lat: parseFloat($("#" + googleMapObject.idLat).val()) || 55.7522200,
-          lng: parseFloat($("#" + googleMapObject.idLng).val()) || 37.6155600,
+          lat: parseFloat($("#" + googleMapObject.idLat).val()) || %f,
+          lng: parseFloat($("#" + googleMapObject.idLng).val()) || %f,
         };
       },
 
@@ -27,7 +27,7 @@
 
         googleMapObject.map = new google.maps.Map(document.getElementById('google_map'), {
           center: googleMapObject.coords,
-          zoom: 12
+          zoom: %d
         });
         
         var latLngCoord = new google.maps.LatLng(googleMapObject.coords.lat, googleMapObject.coords.lng);

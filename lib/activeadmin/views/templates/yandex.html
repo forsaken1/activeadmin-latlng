@@ -11,8 +11,8 @@
 
       getCoordinates: function() {
         return [
-          parseFloat($("#" + yandexMapObject.idLat).val()) || 55.7522200,
-          parseFloat($("#" + yandexMapObject.idLng).val()) || 37.6155600,
+          parseFloat($("#" + yandexMapObject.idLat).val()) || %f,
+          parseFloat($("#" + yandexMapObject.idLng).val()) || %f,
         ];
       },
 
@@ -27,7 +27,7 @@
 
         yandexMapObject.map = new ymaps.Map("yandex_map", {
           center: yandexMapObject.coords,
-          zoom: 12
+          zoom: %d
         });
 
         yandexMapObject.placemark = new ymaps.Placemark( yandexMapObject.coords, {}, { preset: "twirl#redIcon", draggable: true } );

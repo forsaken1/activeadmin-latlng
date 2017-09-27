@@ -10,7 +10,7 @@ module ActiveAdmin
       end
 
       def to_s
-        File.open(File.expand_path('../templates/google.html', __FILE__)).read % [loading_map_code, @height, @id_lat, @id_lng]
+        File.open(File.expand_path('../templates/google.html', __FILE__)).read % [loading_map_code, @height, @id_lat, @id_lng, @default_lat, @default_lng, @map_zoom]
       end
     end
   end
