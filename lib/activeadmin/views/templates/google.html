@@ -8,6 +8,7 @@
       coords: null,
       map: null,
       marker: null,
+      zoom: %d,
 
       getCoordinates: function() {
         return {
@@ -27,25 +28,51 @@
 
         googleMapObject.map = new google.maps.Map(document.getElementById('google_map'), {
           center: googleMapObject.coords,
-          zoom: %d
+          zoom: googleMapObject.zoom
         });
-        
+
         var latLngCoord = new google.maps.LatLng(googleMapObject.coords.lat, googleMapObject.coords.lng);
         googleMapObject.marker = new google.maps.Marker({
           position: latLngCoord,
           map: googleMapObject.map,
           draggable: true
         });
+
         googleMapObject.map.addListener('click', function(e) {
           googleMapObject.coords = { lat: e.latLng.lat(), lng: e.latLng.lng() };
           googleMapObject.saveCoordinates();
           googleMapObject.marker.setPosition(googleMapObject.coords);
         });
+
         googleMapObject.marker.addListener('drag', function(e) {
           googleMapObject.coords = { lat: e.latLng.lat(), lng: e.latLng.lng() };
           googleMapObject.saveCoordinates();
         });
+
+        var searchBox = new google.maps.places.SearchBox(document.getElementById('latlng-search-box'));
+
+        googleMapObject.map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('latlng-search-box'));
+
+        google.maps.event.addListener(searchBox, 'places_changed', function() {
+          searchBox.set('map', null);
+
+          var bounds = new google.maps.LatLngBounds();
+
+          var place = searchBox.getPlaces()[0];
+          var location = place.geometry.location;
+
+          googleMapObject.coords = { lat: location.lat(), lng: location.lng() };
+          googleMapObject.saveCoordinates();
+
+          googleMapObject.marker.setPosition(location);
+          bounds.extend(location);
+
+          googleMapObject.map.fitBounds(bounds);
+          searchBox.set('map', googleMapObject.map);
+          googleMapObject.map.setZoom(googleMapObject.zoom);
+        });
       }
     }
   </script>
+  <input id="latlng-search-box" type="text" style="margin-top: 10px; height: 18px;" placeholder="Search Google Maps...">
 </li>
