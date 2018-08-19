@@ -1,9 +1,7 @@
 module ActiveAdmin
   module Views
     class GoogleMapProxy < LatlngProxy
-      def key
-        @api_key ? "&key=#{@api_key}" : ""
-      end
+      API_KEY_NAME = 'key'.freeze
 
       def loading_map_code
         @loading_map ? "<script src=\"https://maps.googleapis.com/maps/api/js?language=#{@lang}#{key}&libraries=places&callback=googleMapObject.init\" async defer></script>" : ''

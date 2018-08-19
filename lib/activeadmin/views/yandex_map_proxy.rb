@@ -1,9 +1,7 @@
 module ActiveAdmin
   module Views
     class YandexMapProxy < LatlngProxy
-      def key
-        @api_key ? "&apikey=#{@api_key}" : ""
-      end
+      API_KEY_NAME = 'apikey'.freeze
 
       def loading_map_code
         @loading_map ? "<script src=\"https://api-maps.yandex.ru/2.1/?lang=#{@lang}#{key}&load=Map,Placemark\" type=\"text/javascript\"></script>" : ''
