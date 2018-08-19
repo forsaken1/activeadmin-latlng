@@ -12,8 +12,13 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
+#
 
-gem 'rails', '~> 5'
+def rails_version
+  ENV['RAILS_VERSION'] || '5.1'
+end
+
+gem 'rails', rails_version
 
 group :development do
   gem 'listen'

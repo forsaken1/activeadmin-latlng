@@ -1,2 +1,6 @@
 language: ruby
 script: bundle exec rspec
+env:
+  - "RAILS_VERSION=4.2.6"
+  - "RAILS_VERSION=5.1.6"
+  - "RAILS_VERSION=5.2"
