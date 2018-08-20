@@ -18,4 +18,5 @@ gem 'rails', '~> 5'
 group :development do
   gem 'listen'
   gem 'sqlite3'
+  gem 'simplecov'
 end

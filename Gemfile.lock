@@ -238,6 +238,7 @@ DEPENDENCIES
   poltergeist
   rails (~> 5)
   rspec-rails
+  simplecov
   sqlite3
 
 BUNDLED WITH
