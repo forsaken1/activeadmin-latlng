@@ -8,6 +8,7 @@
       coords: null,
       map: null,
       placemark: null,
+      zoom: %d,
 
       getCoordinates: function() {
         return [
@@ -27,7 +28,7 @@
 
         yandexMapObject.map = new ymaps.Map("yandex_map", {
           center: yandexMapObject.coords,
-          zoom: %d
+          zoom: yandexMapObject.zoom
         });
 
         yandexMapObject.placemark = new ymaps.Placemark( yandexMapObject.coords, {}, { preset: "twirl#redIcon", draggable: true } );
