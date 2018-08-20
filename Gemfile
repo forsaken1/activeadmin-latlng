@@ -19,4 +19,5 @@ group :development do
   gem 'listen'
   gem 'sqlite3'
   gem 'simplecov'
+  gem 'byebug'
 end
