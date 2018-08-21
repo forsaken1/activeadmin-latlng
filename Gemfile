@@ -21,3 +21,7 @@ group :development do
   gem 'simplecov'
   gem 'byebug'
 end
+
+group :test do
+  gem 'rails-controller-testing'
+end
