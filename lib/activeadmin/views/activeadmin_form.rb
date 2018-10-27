@@ -19,6 +19,8 @@ module ActiveAdmin
           insert_tag(YandexMapProxy, form_builder, lang, id_lat, id_lng, height, loading_map, api_key, default_lat, default_lng, map_zoom)
         when :google
           insert_tag(GoogleMapProxy, form_builder, lang, id_lat, id_lng, height, loading_map, api_key, default_lat, default_lng, map_zoom)
+        when :openstreetmap
+          insert_tag(OpenStreetMapProxy, form_builder, lang, id_lat, id_lng, height, loading_map, api_key, default_lat, default_lng, map_zoom)
         end
       end
     end
