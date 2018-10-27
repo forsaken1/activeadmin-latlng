@@ -19,8 +19,7 @@ module ActiveAdmin
 
       def to_s
         template = File.read(File.expand_path("../templates/#{@template_name}", __FILE__))
-
-        ERB.new(template).result_with_hash(
+        variables = {
           loading_map_code: loading_map_code,
           height: @height,
           id_lat: @id_lat,
@@ -28,8 +27,16 @@ module ActiveAdmin
           map_zoom: @map_zoom,
           default_lat: @default_lat,
           default_lng: @default_lng
-        )
+        }
+
+        render_template_with_hash(template, variables)
       end
+
+      private
+
+        def render_template_with_hash(template, hash)
+          ERB.new(template).result(OpenStruct.new(hash).instance_eval { binding })
+        end
     end
   end
 end
