@@ -18,7 +18,17 @@ module ActiveAdmin
       end
 
       def to_s
-        File.open(File.expand_path("../templates/#{@template_name}", __FILE__)).read % [loading_map_code, @height, @id_lat, @id_lng, @map_zoom, @default_lat, @default_lng]
+        template = File.read(File.expand_path("../templates/#{@template_name}", __FILE__))
+
+        ERB.new(template).result_with_hash(
+          loading_map_code: loading_map_code,
+          height: @height,
+          id_lat: @id_lat,
+          id_lng: @id_lng,
+          map_zoom: @map_zoom,
+          default_lat: @default_lat,
+          default_lng: @default_lng
+        )
       end
     end
   end

@@ -1,19 +1,19 @@
 <li>
-  %s
-  <div id="google_map" style="height: %spx"></div>
+  <%= loading_map_code %>
+  <div id="google_map" style="height: <%= height %>px"></div>
   <script>
     var googleMapObject = {
-      idLat: '%s',
-      idLng: '%s',
+      idLat: '<%= id_lat %>',
+      idLng: '<%= id_lng %>',
       coords: null,
       map: null,
       marker: null,
-      zoom: %d,
+      zoom: <%= map_zoom %>,
 
       getCoordinates: function() {
         return {
-          lat: parseFloat($("#" + googleMapObject.idLat).val()) || %f,
-          lng: parseFloat($("#" + googleMapObject.idLng).val()) || %f,
+          lat: parseFloat($("#" + googleMapObject.idLat).val()) || <%= default_lat %>,
+          lng: parseFloat($("#" + googleMapObject.idLng).val()) || <%= default_lng %>,
         };
       },
 
