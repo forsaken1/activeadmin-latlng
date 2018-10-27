@@ -33,7 +33,7 @@ end
 
 * `lang` - language, `en` by default.
 
-* `map` - map provider, `google` by default. Available: `google`, `yandex`.
+* `map` - map provider, `google` by default. Available: `google`, `yandex`, `openstreetmap`.
 
 * `id_lat` and `id_lng` - identificator of latitude and longitude inputs. `<model_name>_lat` and `<model_name>_lng` by default.
 

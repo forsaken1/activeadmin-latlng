@@ -3,9 +3,8 @@ module ActiveAdmin
     class OpenStreetMapProxy < LatlngProxy
       def build(_, *args, &_block)
         super _, *args, &_block
-        @api_key_name = ''
-        @template_name = 'openstreetmap.html'
-        @script_html = "%s%s"
+        @template_name = 'openstreetmap.html.erb'
+        @script_html = '<script src="http://cdnjs.buttflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>'
       end
     end
   end

@@ -1,0 +1,107 @@
+<li>
+  <%= loading_map_code %>
+  <link rel="stylesheet" href="http://cdnjs.buttflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+  <script>
+    var osmObject = {
+      idLat: '<%= id_lat %>',
+      idLng: '<%= id_lng %>',
+      idSearch: 'latlng-search-box',
+      zoom: '<%= map_zoom %>',
+      app: {},
+      map: null,
+      marker: null,
+
+      init: function(lat, lon) {
+        try {
+          osmObject.map = new L.Map('locationPicker');
+        } catch(e) {
+          console.log(e);
+        }
+
+        var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+        var osm = new L.TileLayer(osmUrl, {minZoom: 1, maxZoom: 20, attribution: osmAttrib});
+
+        osmObject.map.setView([lat, lon],10);
+        osmObject.map.addLayer(osm);
+
+        osmObject.map.setZoom(osmObject.zoom);
+
+        if (!osmObject.marker) {
+          osmObject.marker = new L.marker([lat, lon], { draggable: 'true' });
+        }else{
+          osmObject.marker.setLatLng([lat, lon]);
+        }
+
+        osmObject.marker.on('dragend', function(e){
+          osmObject.map.setView(e.target.getLatLng());
+
+          $("#"+osmObject.idLat).val(e.target.getLatLng().lat);
+          $("#"+osmObject.idLng).val(e.target.getLatLng().lng);
+        });
+
+        osmObject.map.addLayer(osmObject.marker);
+
+        $("#"+osmObject.idLat).val(lat);
+        $("#"+osmObject.idLat).on('change', function(){
+          osmObject.marker.setLatLng([Number($(this).val()), osmObject.marker.getLatLng().lng]);
+          osmObject.map.setView(osmObject.marker.getLatLng());
+        });
+
+        $("#"+osmObject.idLng).val(lon);
+        $("#"+osmObject.idLng).on('change', function(){
+          osmObject.marker.setLatLng([osmObject.marker.getLatLng().lat, Number($(this).val())]);
+          osmObject.map.setView(osmObject.marker.getLatLng());
+        });
+
+        $("#"+osmObject.idSearch).keypress(function(e) {
+          let ENTER_KEY_CODE = 13;
+          if (e.keyCode == ENTER_KEY_CODE) {
+            var item = osmObject.searchLocation($(this).val(), osmObject.newLocation);
+            e.preventDefault();
+          }
+        });
+      },
+
+      newLocation: function(item) {
+        $("#"+osmObject.idLat).val(item.lat);
+        $("#"+osmObject.idLng).val(item.lon);
+        osmObject.marker.setLatLng([item.lat, item.lon]);
+        osmObject.map.setView([item.lat, item.lon]);
+      },
+
+      searchLocation: function(text, callback) {
+        var requestUrl = "http://nominatim.openstreetmap.org/search?format=json&q="+text;
+        $.ajax({
+          url: requestUrl,
+          type: "GET",
+          dataType: 'json',
+          error: function(err) {
+            console.log(err);
+          },
+          success: function(data) {
+            var item = data[0];
+            callback(item);
+          }
+        });
+      }
+    }
+
+    $(document).ready(function () {
+      osmObject.init(<%= default_lat %>, <%= default_lng %>);
+    });
+  </script>
+  <style>
+    #latlng-search-box {
+      height: 18px;
+      position: relative;
+      left: 52px;
+      top: 39px;
+      max-width: 400px;
+      z-index: 2;
+      border-radius: 4px;
+    }
+  </style>
+  <input id="latlng-search-box" class="leaflet-bar" type="text" style="" placeholder="Search address...">
+  <div id="locationPicker" style="width: auto; height: <%= height %>px;"></div>
+</li>
