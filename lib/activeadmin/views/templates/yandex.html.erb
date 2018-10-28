@@ -1,19 +1,19 @@
 <li>
-  %s
-  <div id="yandex_map" style="height: %spx"></div>
+  <%= loading_map_code %>
+  <div id="yandex_map" style="height: <%= height %>px"></div>
   <script>
     var yandexMapObject = {
-      idLat: '%s',
-      idLng: '%s',
+      idLat: '<%= id_lat %>',
+      idLng: '<%= id_lng %>',
       coords: null,
       map: null,
       placemark: null,
-      zoom: %d,
+      zoom: <%= map_zoom %>,
 
       getCoordinates: function() {
         return [
-          parseFloat($("#" + yandexMapObject.idLat).val()) || %f,
-          parseFloat($("#" + yandexMapObject.idLng).val()) || %f,
+          parseFloat($("#" + yandexMapObject.idLat).val()) || <%= default_lat %>,
+          parseFloat($("#" + yandexMapObject.idLng).val()) || <%= default_lng %>,
         ];
       },
 
@@ -34,12 +34,12 @@
         yandexMapObject.placemark = new ymaps.Placemark( yandexMapObject.coords, {}, { preset: "twirl#redIcon", draggable: true } );
         yandexMapObject.map.geoObjects.add(yandexMapObject.placemark);
 
-        yandexMapObject.placemark.events.add("dragend", function (e) {      
+        yandexMapObject.placemark.events.add("dragend", function (e) {
           yandexMapObject.coords = this.geometry.getCoordinates();
           yandexMapObject.saveCoordinates();
         }, yandexMapObject.placemark);
 
-        yandexMapObject.map.events.add("click", function (e) {        
+        yandexMapObject.map.events.add("click", function (e) {
           yandexMapObject.coords = e.get("coords");
           yandexMapObject.saveCoordinates();
           yandexMapObject.placemark.geometry.setCoordinates(yandexMapObject.coords);
